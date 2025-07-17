@@ -16,6 +16,7 @@ I used a **personal gym progress reel** to demonstrate this workflow in action.
 
 
 <br/>
+
 # Why I Built This
 <p>While Agno enables powerful video summarization, it doesn't natively handle multi-modal input (audio + video) in a way that reflects the full context of real-life content like reels or workout clips.</p>
 
@@ -27,16 +28,28 @@ So, I extended the pipeline to:
 - Recommend similar tracks from the same artist
 - Ideal for content creators, editors, fitness influencers, or GenAI demos.
 
+<br/>
+
 # Run the agent
 
 `python videoInput.py`
 
-The script will:
 
-✅ Extract audio from your .mp4 video
-✅ Identify the background music (artist + title)
-✅ Generate a visual + audio-aware summary using Gemini
-✅ Suggest other songs by the same artist
+<br/>
+
+# Output
+
+<img width="1133" height="450" alt="image" src="https://github.com/user-attachments/assets/c92dd7bf-043f-45e3-b7f0-f402dba13a05" />
+
+
+<br/>
+
+# The script will:
+
+✅ Extract audio from your .mp4 video<br/>
+✅ Identify the background music (artist + title)<br/>
+✅ Generate a visual + audio-aware summary using Gemini<br/>
+✅ Suggest other songs by the same artist<br/>
 
 <br/>
 
