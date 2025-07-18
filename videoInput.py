@@ -18,48 +18,41 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+#Agno Video Agent
+
 video_agent = Agent(
     model=Gemini(id="gemini-2.0-flash-lite"),
     markdown=True,
-    #role="Summarize this video"
 )
 video_path = Path(os.getenv("VIDEO_PATH"))
 video_bytes = video_path.read_bytes()
 
 
+
+# Get the audio from the video
 def convert_video_to_audio_moviepy(video_file, output_ext="mp3"):
     """Converts video to audio using MoviePy (uses ffmpeg)"""
     filename, ext = os.path.splitext(video_file)
     clip = VideoFileClip(video_file)
     clip.audio.write_audiofile(f"{filename}.{output_ext}")
+video_path = os.getenv("VIDEO_PATH")
+convert_video_to_audio_moviepy(video_path)
 
-if __name__ == "__main__":
-    # Actual file path
-    video_path = os.getenv("VIDEO_PATH")
-    convert_video_to_audio_moviepy(video_path)
 
-# Path to your local audio file
+
+#Initialize the artist and title variables
+artist, title = None, None 
+
+
+
+#Path to your local audio file
 local_file_path = os.getenv("AUDIO_PATH")
 
-artist, title = None, None 
+#Try to get the audio song details from AUDD if it fails go to shazam
 try:
-# Open and read the file
-    with open(local_file_path, 'rb') as audio_file:
-        files = {'file': audio_file}
-        data = {
-            'return': 'apple_music,spotify',
-            'api_token': os.getenv("AUDD_API_KEY")
-        }
-        result = requests.post('https://api.audd.io/', data=data, files=files)
-        response = json.loads(result.text)
-        print(result.text)
-        artist = response['result']['artist']
-        title = response['result']['title']
-except:
-    print("Running the Shazam logic as Audd has given up!")
     async def main():
         shazam = Shazam()
-        result = await shazam.recognize(os.getenv("AUDIO_PATH"))  # Replace with your file name
+        result = await shazam.recognize(os.getenv("AUDIO_PATH"))  
 
         if result.get("track"):
             title = result["track"]["title"]
@@ -72,21 +65,35 @@ except:
             print("No track recognized.")
 
     artist, title= asyncio.run(main())
+except:
+    print("Running the Audd logic as Shazam has given up!")
+    # Open and read the file
+    with open(local_file_path, 'rb') as audio_file:
+        files = {'file': audio_file}
+        data = {
+            'return': 'apple_music,spotify',
+            'api_token': os.getenv("AUDD_API_KEY")
+        }
+        result = requests.post('https://api.audd.io/', data=data, files=files)
+        response = json.loads(result.text)
+        print(response['result']['artist'],response['result']['title'])
+        artist = response['result']['artist']
+        title = response['result']['title']
 
+
+#Agno Audio Agent
 
 audio_agent = Agent(
     model=Gemini(id="gemini-2.0-flash-lite"),
     markdown=True,
     role=f"artist is {artist} and the title is {title}"
 )
-
-# Please download a sample audio file to test this Agent and upload using:
 audio_path = Path(os.getenv("AUDIO_PATH"))
 audio_bytes = audio_path.read_bytes()
 
-#audio_agent.print_response("Tell me about this audio", audio=[Audio(content=audio_bytes)], stream=True)
 
-#video_agent.print_response("Summarize this video?", videos=[Video(content=video_bytes)])
+
+#Agno Team logic
 
 audio_video_agent = Team(
 
