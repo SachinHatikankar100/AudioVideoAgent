@@ -9,7 +9,7 @@ I used a **personal gym progress reel** to demonstrate this workflow in action.
 ✨Key Features<br/>
 🎬 Real-time Video Understanding with Google Gemini 2.0 Flash Lite via Agno<br/>
 🎧 Audio Extraction using Python’s moviepy<br/>
-🔍 Music Recognition (Artist & Title) via the AUDD API<br/>
+🔍 Music Recognition (Artist & Title) via the AUDD API and Shazamio<br/>
 🤝 Fused Context Input (video + audio) to generate a richer summary<br/>
 🎵 Music Recommendations based on the detected artist<br/>
 📂 Supports .mp4 format (Instagram reels, fitness clips, etc.)<br/>
@@ -78,7 +78,7 @@ So, I extended the pipeline to:
 # About Me  
 👋 Hi, I'm Sachin Hatikankan – an RPA Engineer transitioning into AI/ML & Generative AI.
 
-🧠 * Passionate about building practical GenAI tools for creators and enterprises
+🧠 Passionate about building practical GenAI tools for creators and enterprises
 
 💼 Currently seeking roles in Data Science, AI/ML Engineering, Applied GenAI
 
